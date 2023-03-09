@@ -55,7 +55,7 @@ create_multiple_models <- function(data_filtered, target, experiment_name, n_cor
   # Save
   save(data_united, directory, chunks, last_run, file = paste(directory, "raw_data.RData", sep = "/"))
 
-  mlflow_directory <- paste(directory, "mlflow", sep = "/")
+  mlflow_directory <- paste("file:/", directory, "mlflow", sep = "/")
   dir.create(mlflow_directory)
   mlflow::mlflow_set_tracking_uri(mlflow_directory)
   mlflow::mlflow_set_experiment(
