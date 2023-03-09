@@ -23,7 +23,7 @@ log_metrics <- function(metrics, run_id) {
 #'
 #' @export
 
-create_multiple_models <- function(data_filtered, experiment_name, n_cores = detectCores()/4, n_prop = 2/3, n_repeats = 50){
+create_multiple_models <- function(data_filtered, target, experiment_name, n_cores = detectCores()/4, n_prop = 2/3, n_repeats = 50){
 
   directory <- paste0(getwd(), '/', experiment_name)
   if(!dir.exists(directory)){
