@@ -93,7 +93,7 @@ create_multiple_models <- function(data_filtered, target, experiment_name, n_cor
           data %>%
           group_by(!!rlang::sym(target$target_variable)) %>%
           count() %>%
-          spread(target$target_variable, n) %>%
+          pivot_wider(names_from = all_of(target$target_variable), values_from = n) %>%
           rename_with( ~ paste0("n_", .x))
 
         lapply(colnames(n_groups), function(i) mlflow::mlflow_log_param(i, pull(n_groups[i]),  run_id = run$run_uuid))
