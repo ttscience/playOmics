@@ -24,6 +24,7 @@ log_metrics <- function(metrics, run_id) {
 #' @export
 
 create_multiple_models <- function(data_filtered, target, experiment_name, n_cores = detectCores()/4, n_prop = 2/3, n_repeats = 50){
+  is_Windows <- Sys.info()[["sysname"]] == "Windows"
 
   directory <- paste0(getwd(), '/', experiment_name)
   if(!dir.exists(directory)){
@@ -61,13 +62,19 @@ create_multiple_models <- function(data_filtered, target, experiment_name, n_cor
     experiment_name = experiment_name
   )
   logger::log_info("Experiment {experiment_name} created")
-  cl <- parallel::makeForkCluster(n_cores)
+  if (!is_Windows) {
+    cl <- parallel::makeForkCluster(n_cores)
+  }
 
   logger::log_info("Starting modelling experiment")
-  models <-
-    chunks %>%
-    parallel::parLapplyLB(cl, ., function(single_model){
-
+  # Use proper iterator function for different OS
+  iterator_func <- if (!is_Windows) {
+    function(...) { parallel::parLapplyLB(cl, ...) }
+  } else {
+    lapply
+  }
+  
+  models <- iterator_func(chunks, function(single_model) {
       set.seed(sample(1:100000, size = 1))
       data <-
         data_united[, single_model] %>%
@@ -213,9 +220,10 @@ create_multiple_models <- function(data_filtered, target, experiment_name, n_cor
   save(models,file = paste(directory, "models_stats.RData", sep = "/"))
 
   # Multicore off
-  parallel::stopCluster(cl)
-  rm(cl)
+  if (!is_Windows) {
+    parallel::stopCluster(cl)
+    rm(cl)
+  }
 
   return(models)
-
 }
