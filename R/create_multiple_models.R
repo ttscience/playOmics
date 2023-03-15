@@ -226,5 +226,8 @@ create_multiple_models <- function(data_filtered, target, experiment_name, n_cor
     rm(cl)
   }
 
-  return(models)
+  structure(
+    models,
+    id = mlflow::mlflow_id(mlflow::mlflow_get_experiment())
+  )
 }
