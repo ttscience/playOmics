@@ -57,7 +57,8 @@ create_multiple_models <- function(data_filtered, target, experiment_name, n_cor
 
   mlflow_directory <- paste(directory, "mlflow", sep = "/")
   dir.create(mlflow_directory)
-  mlflow::mlflow_set_tracking_uri(paste0("file://", mlflow_directory))
+  # mlflow::mlflow_set_tracking_uri(paste0("file://", mlflow_directory))
+  mlflow::mlflow_set_tracking_uri("http://127.0.0.1:5000")
   mlflow::mlflow_set_experiment(
     experiment_name = experiment_name
   )
