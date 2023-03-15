@@ -85,7 +85,7 @@ create_multiple_models <- function(data_filtered, target, experiment_name, n_cor
 
       tryCatch({
 
-        mlflow::mlflow_start_run(nested = T)
+        mlflow::mlflow_start_run()
         run = mlflow::mlflow_get_run()
         # log model name
         mlflow::mlflow_log_param("model_name", model_name, run_id = run$run_uuid)
