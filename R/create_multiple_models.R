@@ -178,7 +178,7 @@ create_multiple_models <- function(data_filtered, target, experiment_name, n_cor
           DALEXtra::explain_tidymodels(
             fitted_model,
             data = data,
-            y = target$target_variable,
+            y = data[[target$target_variable]],
             label = "lr",
             verbose = FALSE
           )
