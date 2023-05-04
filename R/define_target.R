@@ -72,7 +72,8 @@ prepare_data_for_modelling <- function(data, target){
         mydata <-
           mydata %>%
           recipes::recipe( ~ .) %>%
-          recipes::step_dummy(recipes::all_predictors(), -recipes::all_numeric(), -recipes::all_logical(), -target$id_variable, -target$target_variable, one_hot = T) %>%
+          recipes::step_dummy(recipes::all_predictors(), -recipes::all_numeric(), -recipes::all_logical(),
+                              -recipes::all_datetime(), -target$id_variable, -target$target_variable, one_hot = T) %>%
           recipes::prep() %>%
           recipes::bake(mydata) %>%
           mutate_if(is.logical, as.integer)
