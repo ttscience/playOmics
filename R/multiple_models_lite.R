@@ -78,7 +78,7 @@ create_multiple_models_lite <- function(
       list(
         model_name = model_name,
         groups = n_groups,
-        resampling_stategy = "mc_cv",
+        resampling = "mc_cv",
         prop = n_prop,
         times = n_repeats
       ) %>%
