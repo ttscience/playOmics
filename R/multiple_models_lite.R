@@ -130,7 +130,7 @@ create_multiple_models_lite <- function(
 
       # Log metrics
       jsonlite::write_json(
-        lapply(metrics, identity),
+        lapply(results, identity),
         file.path(model_dir, "metrics.json"), pretty = TRUE, auto_unbox = TRUE
       )
 
