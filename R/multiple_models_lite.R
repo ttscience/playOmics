@@ -64,6 +64,8 @@ create_multiple_models_lite <- function(
     model_dir <- file.path(models_dir, model_id)
     dir.create(model_dir)
 
+    logger::log_info("Model '{model_name}' started")
+
     tryCatch({
       n_groups <- model_data %>%
         count(!!rlang::sym(target$target_variable)) %>%
