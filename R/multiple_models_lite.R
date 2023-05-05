@@ -15,9 +15,9 @@ create_multiple_models_lite <- function(
 ){
   is_Windows <- Sys.info()[["sysname"]] == "Windows"
 
-  directory <- file.path(directory, experiment_name)
-  if (!dir.exists(directory)) {
-    dir.create(directory)
+  models_dir <- file.path(directory, experiment_name)
+  if (!dir.exists(models_dir)) {
+    dir.create(models_dir)
   } else {
     logger::log_error("Experiment with given name already exists. Please introduce different name")
     stop("Experiment with given name already exists. Please introduce different name")
@@ -38,10 +38,7 @@ create_multiple_models_lite <- function(
     sample()
 
   # Save
-  save(data, directory, chunks, last_run, file = file.path(directory, "raw_data.RData"))
-
-  models_dir <- file.path(directory, "models")
-  dir.create(models_dir)
+  save(data, models_dir, chunks, last_run, file = file.path(models_dir, "raw_data.RData"))
 
   logger::log_info("Experiment {experiment_name} created")
 
